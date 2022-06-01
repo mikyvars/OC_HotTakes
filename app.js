@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
+
 const userRoutes = require('./routes/user')
+const sauceRoutes = require('./routes/sauce')
 
 mongoose.connect('mongodb+srv://openclassroom:rdH2JvUWpMn2LnUN@cluster0.5pdc0.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connection to MongoDB successful!'))
@@ -17,5 +19,6 @@ app.use((req, res, next) => {
 
 app.use(express.json())
 app.use('/api/auth', userRoutes)
+app.use('/api/sauces', sauceRoutes)
 
 module.exports = app
