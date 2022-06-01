@@ -1,4 +1,10 @@
 const express = require('express')
+const mongoose = require('mongoose')
+
+mongoose.connect('mongodb+srv://openclassroom:rdH2JvUWpMn2LnUN@cluster0.5pdc0.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connection to MongoDB successful!'))
+    .catch(() => console.log('Connection to MongoDB failed!'));
+
 const app = express()
 app.use(express.json())
 
