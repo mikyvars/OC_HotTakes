@@ -48,3 +48,38 @@ exports.deleteSauce = (req, res, next) => {
         })
         .catch(error => res.status(500).json({error}))
 }
+
+exports.likeSauce = (req, res, next) => {
+    const userId = req.body.userId
+    const like = req.body.like
+
+    Sauce.findOne({_id: req.params.id})
+        .then(sauce => {
+
+            if(!sauce.usersLiked.includes(userId) && !sauce.usersDisliked.includes(userId)) {
+                
+                if(like === 1) {
+                    sauce.usersLiked.push(userId)
+                    sauce.likes++
+                } else if(like == -1) {
+                    sauce.usersDisliked.push(userId)
+                    sauce.dislikes++
+                }
+            } else if(like === 0 && sauce.usersLiked.includes(userId)) {
+                const userIndex = sauce.usersLiked.findIndex(user => user === userId)
+                sauce.usersLiked.splice(userIndex, 1)
+                sauce.likes--
+            } else if(like === 0 && sauce.usersDisliked.includes(userId)) {
+                const userIndex = sauce.usersDisliked.findIndex(user => user === userId)
+                sauce.usersDisliked.splice(userIndex, 1)
+                sauce.dislikes--
+            }
+
+            sauce.save()
+                .then(() => {
+                    res.status(200).json({message: 'Like/Dislike ajouté.'})
+                })
+                .catch(error => res.status(500).json({error}))
+        })
+        .catch(error => res.status(500).json({error}))
+}
