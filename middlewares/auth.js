@@ -7,11 +7,11 @@ module.exports = (req, res, next) => {
         const userId = decodedToken.userId
 
         if(req.body.userId && req.body.userId !== userId) {
-            throw 'UserID non valable.'
+            res.status(403).json({ message: 'Requête non autorisée' });
         } else {
             next()
         }
     } catch(error) {
-        res.status(401).json({error: error || 'Requête non authentifiée.'})
+        res.status(401).json({error})
     }
 }
