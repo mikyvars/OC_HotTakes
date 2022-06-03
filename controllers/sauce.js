@@ -61,7 +61,7 @@ exports.likeSauce = (req, res, next) => {
                 if(like === 1) {
                     sauce.usersLiked.push(userId)
                     sauce.likes++
-                } else if(like == -1) {
+                } else if(like === -1) {
                     sauce.usersDisliked.push(userId)
                     sauce.dislikes++
                 }
