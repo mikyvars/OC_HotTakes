@@ -65,11 +65,11 @@ exports.likeSauce = (req, res, next) => {
                     sauce.usersDisliked.push(userId)
                     sauce.dislikes++
                 }
-            } else if(like === 0 && sauce.usersLiked.includes(userId)) {
+            } else if(like === 1 && sauce.usersLiked.includes(userId)) {
                 const userIndex = sauce.usersLiked.findIndex(user => user === userId)
                 sauce.usersLiked.splice(userIndex, 1)
                 sauce.likes--
-            } else if(like === 0 && sauce.usersDisliked.includes(userId)) {
+            } else if(like === -1 && sauce.usersDisliked.includes(userId)) {
                 const userIndex = sauce.usersDisliked.findIndex(user => user === userId)
                 sauce.usersDisliked.splice(userIndex, 1)
                 sauce.dislikes--
