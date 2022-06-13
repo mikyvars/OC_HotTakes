@@ -1,6 +1,7 @@
 const http = require('http')
 const app = require('./app')
 
+// normalize the port to get a valid value
 const normalizePort = val => {
 	const port = parseInt(val, 10)
 
@@ -15,9 +16,10 @@ const normalizePort = val => {
 	return false
 }
 
-const port = normalizePort(process.env.PORT || '3000')
+const port = normalizePort(process.env.PORT || '3000')
 app.set('port', port)
 
+// handle server errors
 const errorHandler = error => {
 
 	if(error.syscall !== 'listen') {
@@ -45,6 +47,7 @@ const errorHandler = error => {
 
 const server = http.createServer(app)
 
+// connect to the port
 server.on('error', errorHandler)
 server.on('listening', () => {
 	const address = server.address()
@@ -52,4 +55,5 @@ server.on('listening', () => {
 	console.log('Listening on ' + bind)
 })
 
+// listen api calls on selected port
 server.listen(port)

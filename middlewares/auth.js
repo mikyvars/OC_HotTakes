@@ -1,5 +1,6 @@
 const webToken = require('jsonwebtoken')
 
+// function to check if user is authorized to login
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1]
