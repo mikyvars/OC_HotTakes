@@ -49,32 +49,34 @@ exports.deleteSauce = (req, res, next) => {
         .catch(error => res.status(500).json({error}))
 }
 
-exports.likeSauce = (req, res, next) => {
-    const userId = req.body.userId
-    const like = req.body.like
+exports.likeSauce = (req, res) => {
 
     Sauce.findOne({_id: req.params.id})
         .then(sauce => {
 
-            if(!sauce.usersLiked.includes(userId) && !sauce.usersDisliked.includes(userId)) {
-                
-                if(like === 1) {
-                    sauce.usersLiked.push(userId)
-                    sauce.likes++
-                } else if(like === -1) {
-                    sauce.usersDisliked.push(userId)
-                    sauce.dislikes++
+            if(sauce.usersLiked.indexOf(req.body.userId) == -1 && sauce.usersDisliked.indexOf(req.body.userId) == -1) {
+
+                if(req.body.like == 1) {
+                    sauce.usersLiked.push(req.body.userId)
+                    sauce.likes += req.body.like
+                } else if(req.body.like == -1) {
+                    sauce.usersDisliked.push(req.body.userId)
+                    sauce.dislikes -= req.body.like
                 }
-            } else if(like === 1 && sauce.usersLiked.includes(userId)) {
-                const userIndex = sauce.usersLiked.findIndex(user => user === userId)
-                sauce.usersLiked.splice(userIndex, 1)
-                sauce.likes--
-            } else if(like === -1 && sauce.usersDisliked.includes(userId)) {
-                const userIndex = sauce.usersDisliked.findIndex(user => user === userId)
-                sauce.usersDisliked.splice(userIndex, 1)
-                sauce.dislikes--
             }
 
+            if(sauce.usersLiked.indexOf(req.body.userId) != -1 && req.body.like == 0) {
+                const index = sauce.usersLiked.findIndex(user => user === req.body.userId)
+                sauce.usersLiked.splice(index, 1)
+                sauce.likes -= 1
+            }
+
+            if(sauce.usersDisliked.indexOf(req.body.userId) != -1 && req.body.like == 0) {
+                const index = sauce.usersDisliked.findIndex(user => user === req.body.userId)
+                sauce.usersDisliked.splice(index, 1)
+                sauce.dislikes -= 1
+            }
+            
             sauce.save()
                 .then(() => {
                     res.status(200).json({message: 'Like/Dislike ajouté.'})
