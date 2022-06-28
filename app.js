@@ -7,7 +7,7 @@ const userRoutes = require('./routes/user')
 const sauceRoutes = require('./routes/sauce')
 
 // connect to the database with user and password in environment variables
-mongoose.connect(`mongodb+srv://${process.env.MDB_USER}:${process.env.MDB_PASS}@cluster0.5pdc0.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://${process.env.MDB_USER || 'openclassroom'}:${process.env.MDB_PASS || 'rdH2JvUWpMn2LnUN'}@cluster0.5pdc0.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connection to MongoDB successful!'))
     .catch(() => console.log('Connection to MongoDB failed!'));
 
