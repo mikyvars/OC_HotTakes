@@ -1,4 +1,5 @@
 const multer = require('multer')
+const fs = require('fs')
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
@@ -8,6 +9,11 @@ const MIME_TYPES = {
 // multer config to set files destination and rename them
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
+
+        if(!fs.existsSync('images')) {
+            fs.mkdirSync('images')
+        }
+        
         callback(null, 'images')
     },
     filename: (req, file, callback) => {
